@@ -31,5 +31,6 @@ class Bot:
         moves = state.moves()
 
 
+
         # Return a random choice
         return random.choice(moves)

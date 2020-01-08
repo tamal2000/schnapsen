@@ -40,6 +40,7 @@ class Bot:
 
 		if len(moves_trump_suit) > 0:
 			chosen_move = moves_trump_suit[0]
+
 			return chosen_move
 
 		# If the opponent has played a card
@@ -54,6 +55,7 @@ class Bot:
 
 			if len(moves_same_suit) > 0:
 				chosen_move = moves_same_suit[0]
+
 				return chosen_move
 
 		# Get move with highest rank available, of any suit
