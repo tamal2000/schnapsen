@@ -217,3 +217,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Type checker cache
+.mypy_cache/
+
+# Config for PyCharm
+.idea
