@@ -17,7 +17,7 @@ class Bot:
 	# How deep to sample
 	__depth = -1
 
-	def __init__(self, num_samples=4, depth=8):
+	def __init__(self, num_samples=14, depth=15):
 		self.__num_samples = num_samples
 		self.__depth = depth
 
@@ -33,10 +33,12 @@ class Bot:
 		# Shuffling the list of moves ensures that.
 		random.shuffle(moves)
 
+
 		best_score = float("-inf")
 		best_move = None
 
 		scores = [0.0] * len(moves)
+
 
 		for move in moves:
 			for s in range(self.__num_samples):
@@ -47,9 +49,12 @@ class Bot:
 
 				score = self.evaluate(sample_state.next(move), player)
 
+
+
 				if score > best_score:
 					best_score = score
 					best_move = move
+
 
 		return best_move # Return the best scoring move
 
