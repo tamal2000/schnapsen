@@ -4,7 +4,6 @@ uniformly at random.
 """
 
 # Import the API objects
-from api import State
 from api import Deck
 
 import random
@@ -18,10 +17,8 @@ class Bot:
     def get_move(self, state):
         # type: (State) -> tuple[int, int]
         """
-        Function that gets called every turn. This is where to implement the strategies.
-        Be sure to make a legal move. Illegal moves, like giving an index of a card you
-        don't own or proposing an illegal mariage, will lose you the game.
-        TODO: add some more explanation
+        My own strategy, based on how I would play personally.
+
         :param State state: An object representing the gamestate. This includes a link to
             the states of all the cards, the trick and the points.
         :return: A tuple of integers or a tuple of an integer and None,
