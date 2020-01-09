@@ -36,10 +36,8 @@ class Bot:
         trump_moves = []
         non_trump_moves = []
         suit_following_moves = []
-        # oppo_is_trump = Deck.get_suit(oppo_card) == Deck.get_trump_suit()
 
         for move in moves:
-            # print('move:', move)
             # Can I trump jack exchange?
             if type(move[0]) is None:
                 print('EXCHANGING TRUMP JACK')
@@ -50,7 +48,10 @@ class Bot:
                 print('PLAYING MARRIAGE')
                 return move
 
-            # Can only play cards, i.e. no option for exchanging or marriage
+            # Can I play a trump ace and win by 66?
+            ''' Not implemented yet '''
+
+            # Fill the lists containing cards by condition
             if type(move[0]) is int:
                 suit = Deck.get_suit(move[0])
 
@@ -66,32 +67,51 @@ class Bot:
                 if suit != state.get_trump_suit():
                     non_trump_moves.append(move)
 
+        # -------------- If the opponent played a card first -----
         if oppo_card:
             # Can I follow suit or trump and win?
             for move in suit_following_moves:
+
                 # Can I follow a non-trump suit and win the trick?
                 if move in non_trump_moves and oppo_card > move[0]:
                     print('NON TRUMP TRICK WIN')
                     return move
+
                 # Can I follow a trump suit with high yield and win the trick?
                 if move in trump_moves and \
                    Deck.get_rank(oppo_card) in ['A', '10'] and \
                    oppo_card > move[0]:
                     print('TRUMP TRICK WIN')
                     return move
-                
-            # Cant follow suit.. Can I throw in a non-trump Jack?
+
+            # ------- Cant win the trick. -------
+
+            # Can I sacrifice a non-trump Jack?
             for move in non_trump_moves:
                 if Deck.get_rank(move[0]) == 'J':
                     return move
-                
 
-        # Can I follow a trump suit and win the trick
+            # Can I sacrifice by following suit with a queen
+            # when the played card is a king?
+            for move in suit_following_moves:
+                if Deck.get_rank(move[0]) == 'Q' and \
+                   Deck.get_rank(oppo_card) == 'K':
+                    return move
+
+        # --------------- If I have to play a card first -----------------
+
+        # Lead non trump jack
         for move in non_trump_moves:
-            pass
+            if Deck.get_rank(move[0]) == 'J':
+                return move
 
+        # Lead non-marriageable queen/king
+        ''' Not implemented yet '''
 
-        # Can I throw in a non-trump King or Queen that cannot be married?
+        # Lead non trump ace.
+        for move in non_trump_moves:
+            if Deck.get_rank(move[0]) == 'A':
+                return move
 
         # Play anything legal at random.
         return random.choice(moves)
