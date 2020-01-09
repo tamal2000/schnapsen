@@ -37,12 +37,10 @@ class Bot:
         for move in moves:
             # Can I trump jack exchange?
             if type(move[0]) is None:
-                print('EXCHANGING TRUMP JACK')
                 return move
 
             # Can I play a marriage?
             if type(move[0]) is int and type(move[1]) is int:
-                print('PLAYING MARRIAGE')
                 return move
 
             # Can I play a trump ace and win by 66?
@@ -71,14 +69,12 @@ class Bot:
 
                 # Can I follow a non-trump suit and win the trick?
                 if move in non_trump_moves and oppo_card > move[0]:
-                    print('NON TRUMP TRICK WIN')
                     return move
 
                 # Can I follow a trump suit with high yield and win the trick?
                 if move in trump_moves and \
                    Deck.get_rank(oppo_card) in ['A', '10'] and \
                    oppo_card > move[0]:
-                    print('TRUMP TRICK WIN')
                     return move
 
             # ------- Cant win the trick. -------
