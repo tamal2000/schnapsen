@@ -17,7 +17,7 @@ class Bot:
 	# How deep to sample
 	__depth = -1
 
-	def __init__(self, num_samples=14, depth=15):
+	def __init__(self, num_samples=4, depth=8):
 		self.__num_samples = num_samples
 		self.__depth = depth
 

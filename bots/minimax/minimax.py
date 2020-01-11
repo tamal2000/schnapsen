@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 """
-
-
 """
 
 from api import State, util
@@ -57,7 +55,7 @@ class Bot:
 
             # IMPLEMENT: Add a recursive function call so that 'value' will contain the
             # minimax value of 'next_state'
-            value = maximizing(next_state)
+            value ???
 
             if maximizing(state):
                 if value > best_value:
@@ -74,7 +72,6 @@ def maximizing(state):
     # type: (State) -> bool
     """
     Whether we're the maximizing player (1) or the minimizing player (2).
-
     :param state:
     :return:
     """
@@ -84,7 +81,6 @@ def heuristic(state):
     # type: (State) -> float
     """
     Estimate the value of this state: -1.0 is a certain win for player 2, 1.0 is a certain win for player 1
-
     :param state:
     :return: A heuristic evaluation for the given state (between -1.0 and 1.0)
     """
