@@ -221,4 +221,8 @@ fabric.properties
 .mypy_cache/
 
 # Config for PyCharm
-.idea
+.idea/
+
+# Config for VSCode
+.vscode/
+
