@@ -6,16 +6,14 @@ Check that the minmax bot and alpha beta bot return the same judgement, and that
 from api import State, util
 import random, time
 
-raise Exception('Copy and paste check_minimax.py and import your own bots,' 
-                ' instead of the default bots bots.alphabeta and bots.minimax.')
-from bots.alphabeta import alphabeta
-from bots.minimax import minimax
+from bots.alphabeta_misha import alphabeta_misha
+from bots.minimax_misha import minimax_misha
 
 REPEATS = 3
 DEPTH = 4
 
-ab = alphabeta.Bot(randomize=False, depth=DEPTH)
-mm = minimax.Bot(randomize=False, depth=DEPTH)
+ab = alphabeta_misha.Bot(randomize=False, depth=DEPTH)
+mm = minimax_misha.Bot(randomize=False, depth=DEPTH)
 
 mm_time = 0
 ab_time = 0

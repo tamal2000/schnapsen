@@ -29,6 +29,7 @@ def generate():
 	global state
 	# Use 3 for marriage, 50 for exchange
 	state = State.generate(id=options.seed, phase=options.phase)
+	print('Trump suit is ', state.get_trump_suit())
 	return state.convert_to_json() #[:-1] + ', "seed": ' + str(id) + '}')
 
 @app.route('/next', methods = ['GET'])

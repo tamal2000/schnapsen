@@ -20,9 +20,9 @@ class Bot:
 
     def get_move(self, state):
         # type: (State) -> tuple[int, int]
-
+        print('EXECUTING MINIMAX, BUILDING TREE..')
         val, move = self.value(state)
-
+        print('\n__________\nFOUND BEST MOVE:', val, move, '\n_________\n')
         return move
 
     def value(self, state: State, depth = 0):
@@ -33,7 +33,7 @@ class Bot:
         :param depth:
         :return: A tuple containing the value of this state, and the best move for the player currently to move
         """
-
+        # print('depth:', depth)
         if state.finished():
             winner, points = state.winner()
             return (points, None) if winner == 1 else (-points, None)
@@ -78,10 +78,41 @@ def maximizing(state):
     return state.whose_turn() == 1
 
 def heuristic(state):
-    # type: (State) -> float
+    # type: (State) -> tuple[float, None]
     """
-    Estimate the value of this state: -1.0 is a certain win for player 2, 1.0 is a certain win for player 1
+    Estimate the value of this state. Strategy is to play lowest strength 
+    legal cards first. To keep the highest strength hand for later in phase 2.
+
     :param state:
     :return: A heuristic evaluation for the given state (between -1.0 and 1.0)
     """
-    return util.ratio_points(state, 1) * 2.0 - 1.0, None
+    return get_hand_strength(state), None
+
+def get_hand_strength(state):
+    hand = state.hand()
+    current_trump_suit = state.get_trump_suit()
+
+    hand_strength = 0
+    for card in hand:
+        hand_strength = hand_strength + 
+            get_card_strength(card, current_trump_suit)
+    return hand_strength
+
+def get_card_strength(card: tuple, current_trump_suit: str):
+    card_strength = 0
+    rank = util.get_rank(card)
+    
+    if rank == 'A':
+        card_strength = card_strength + 32
+    elif rank == '10':
+        card_strength = card_strength + 16
+    elif rank == 'K':
+        card_strength = card_strength + 8
+    elif rank == 'Q':
+        card_strength = card_strength + 4
+    elif rank == 'J':
+        card_strength = card_strength + 2
+
+    if util.get_suit(card) == current_trump_suit:
+        card_strength = card_strength * 2
+    return card_strength
