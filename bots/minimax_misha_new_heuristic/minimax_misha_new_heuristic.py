@@ -94,8 +94,8 @@ def get_hand_strength(state):
 
     hand_strength = 0
     for card in hand:
-        hand_strength = hand_strength + 
-            get_card_strength(card, current_trump_suit)
+        hand_strength = (hand_strength + 
+            get_card_strength(card, current_trump_suit))
     return hand_strength
 
 def get_card_strength(card: tuple, current_trump_suit: str):
