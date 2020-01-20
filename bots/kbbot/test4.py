@@ -56,6 +56,10 @@ kb.add_clause(J9)
 kb.add_clause(J14)
 kb.add_clause(J19)
 # Add here whatever is needed for your strategy.
+kb.add_clause(J0)
+kb.add_clause(J5)
+kb.add_clause(J10)
+kb.add_clause(J15)
 
 # DEFINITION OF THE STRATEGY
 # Add clauses (This list is sufficient for this strategy)
@@ -65,13 +69,23 @@ kb.add_clause(~J4, PJ4)
 kb.add_clause(~J9, PJ9)
 kb.add_clause(~J14, PJ14)
 kb.add_clause(~J19, PJ19)
+
 kb.add_clause(~PJ4, J4)
 kb.add_clause(~PJ9, J9)
 kb.add_clause(~PJ14, J14)
 kb.add_clause(~PJ19, J19)
 # Add here other strategies
+kb.add_clause(~J0, PJ0)
+kb.add_clause(~J5, PJ5)
+kb.add_clause(~J10, PJ10)
+kb.add_clause(~J15, PJ15)
 
-kb.add_clause(~PJ4)
+kb.add_clause(~PJ0, J0)
+kb.add_clause(~PJ5, J5)
+kb.add_clause(~PJ10, J10)
+kb.add_clause(~PJ15, J15)
+
+kb.add_clause(J0)
 # print all models of the knowledge base
 for model in kb.models():
     print(model)
