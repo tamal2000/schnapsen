@@ -2,29 +2,25 @@ import sys
 from kb import KB, Boolean, Integer, Constant
 
 '''
-KB:
-~A -> B
-B -> A
-A -> (C ^ D)
+(P↔¬Q) is entailed by the knowledge base 
+KB
+(P∨Q)∧(Q→R)∧(R→¬P)
 
-Entailment:
-A ^ C ^ D
 '''
 
 # Define our symbols
-A = Boolean('A')
-B = Boolean('B')
-C = Boolean('C')
-D = Boolean('D')
+P = Boolean('P')
+Q = Boolean('Q')
+R = Boolean('R')
 
 # Create a new knowledge base
 kb = KB()
 
 # Add clauses
-kb.add_clause(A, B)
-kb.add_clause(~B, A)
-kb.add_clause(~A, C)
-kb.add_clause(~A, D)
+kb.add_clause(P, Q)
+kb.add_clause(~Q, R)
+kb.add_clause(~R, ~P)
+kb.add_clause(~A, ~C, ~D)
 
 # Print all models of the knowledge base
 for model in kb.models():
