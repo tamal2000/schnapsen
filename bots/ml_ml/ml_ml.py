@@ -12,7 +12,7 @@ from sklearn.externals import joblib
 
 # Path of the model we will use. If you make a model
 # with a different name, point this line to its path.
-model_name = 'rdeep.pkl'
+model_name = 'trained_on_rdeep.pkl'
 DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/' + model_name
 
 class Bot:

@@ -19,11 +19,15 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 
 from bots.rand import rand
-# from bots.rdeep import rdeep
+from bots.rdeep import rdeep
+from bots.ml import ml
 
 from bots.ml.ml import features
 
-def create_dataset(path, player=rand.Bot(), games=2000, phase=1):
+bot = ml.Bot()
+games = 2000
+
+def create_dataset(path, player=bot, games=games, phase=1):
 
     data = []
     target = []
@@ -107,7 +111,7 @@ parser.add_argument("--no-train",
 options = parser.parse_args()
 
 if options.overwrite or not os.path.isfile(options.dset_path):
-    create_dataset(options.dset_path, player=rand.Bot(), games=10000)
+    create_dataset(options.dset_path, player=bot, games=games)
 
 if options.train:
 
