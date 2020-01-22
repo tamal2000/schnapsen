@@ -4,7 +4,7 @@ A basic adaptive bot. This is part of the third worksheet.
 
 """
 
-from api import State, util
+from api import State, util, Deck
 import random, os
 from itertools import chain
 
@@ -12,7 +12,7 @@ from sklearn.externals import joblib
 
 # Path of the model we will use. If you make a model
 # with a different name, point this line to its path.
-model_name = 'rdeep.pkl'
+model_name = 'model.pkl'
 DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/' + model_name
 
 class Bot:
@@ -116,7 +116,7 @@ def features(state: State):
     # Add player 1's pending points to feature set
     p1_pending_points = state.get_pending_points(player=1)
 
-    # Add plauer 2's pending points to feature set
+    # Add player 2's pending points to feature set
     p2_pending_points = state.get_pending_points(player=2)
 
     # Get trump suit
@@ -137,6 +137,16 @@ def features(state: State):
     # Add opponent's played card to feature set
     opponents_played_card = state.get_opponents_played_card()
 
+    ############################# CUSTOM #################################
+
+    # Add hand to feature set
+    hand = state.hand()
+
+    # Number of trump cards in hand
+    number_of_trump_cards_in_hand = 0
+    for h in hand:
+        if Deck.get_suit(h) == trump_suit:
+            number_of_trump_cards_in_hand = number_of_trump_cards_in_hand + 1
 
     ################## You do not need to do anything below this line ########################
 
@@ -187,6 +197,19 @@ def features(state: State):
     opponents_played_card_onehot = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     opponents_played_card_onehot[opponents_played_card if opponents_played_card is not None else 20] = 1
     feature_set += opponents_played_card_onehot
+
+    ############################# CUSTOM #################################
+
+    # Append one-hot encoded hand to feature set
+    # hand_onehot = [0 for x in range(20)]
+    # for h in hand:
+    #     hand_onehot[h] = 1
+    # feature_set += hand_onehot
+
+    # Append one-hot encoded number of trump suits in hand to feature set
+    trumps_in_hand_onehot = [0 for x in range(6)]
+    trumps_in_hand_onehot[number_of_trump_cards_in_hand] = 1
+    feature_set += trumps_in_hand_onehot
 
     # Return feature set
     return feature_set

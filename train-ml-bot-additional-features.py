@@ -5,7 +5,7 @@ Every observed state is converted to a feature vector and labeled with the event
 
 This is part of the second worksheet.
 """
-from api import State, util
+from api import State, util 
 import pickle
 import os.path
 from argparse import ArgumentParser
@@ -18,15 +18,15 @@ import sklearn.linear_model
 from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 
-from bots.rand import rand
+# from bots.rand import rand
 from bots.rdeep import rdeep
-from bots.ml import ml
+# from bots.ml import ml
 
-from bots.ml.ml import features
+from bots.ml_additional_features.ml_additional_features import features
 
-bot = ml.Bot()
+bot = rdeep.Bot()
 games = 500
-model_prefix_path = './bots/ml/'
+model_prefix_path = './bots/ml_additional_features/'
 
 def create_dataset(path, player=bot, games=games, phase=1):
 
