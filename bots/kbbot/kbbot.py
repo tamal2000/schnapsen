@@ -18,6 +18,12 @@ class Bot:
     def __init__(self):
         pass
 
+    @staticmethod
+    def _print_big(string):
+        print('\n------------------------------\n')
+        print(string)
+        print('\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n')
+
     def get_move(self, state):
 
         moves = state.moves()
@@ -31,9 +37,11 @@ class Bot:
                 # into account that there might be other valid moves according to the strategy.
                 # Uncomment the next line if you want to see that something happens.
                 # print "Strategy Applied"
+                Bot._print_big('Entailed move found: playing a cheap card, e.g. king, queen or jack!')
                 return move
 
         # If no move that is entailed by the kb is found, play random move
+        Bot._print_big('Could not find entailed move, playing random.')
         return random.choice(moves)
 
     # Note: In this example, the state object is not used,
