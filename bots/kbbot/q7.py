@@ -25,6 +25,7 @@ J16 = Boolean('j16')
 J17 = Boolean('j17')
 J18 = Boolean('j18')
 J19 = Boolean('j19')
+
 PJ0 = Boolean('pj0')
 PJ1 = Boolean('pj1')
 PJ2 = Boolean('pj2')
@@ -49,43 +50,84 @@ PJ19 = Boolean('pj19')
 # Create a new knowledge base
 kb = KB()
 
-# GENERAL INFORMATION ABOUT THE CARDS
-# This adds information which cards are Jacks
-kb.add_clause(J4)
-kb.add_clause(J9)
-kb.add_clause(J14)
-kb.add_clause(J19)
-# Add here whatever is needed for your strategy.
-kb.add_clause(J0)
-kb.add_clause(J5)
-kb.add_clause(J10)
-kb.add_clause(J15)
+# 0, 5, 10, 15 - Aces
+# 1, 6, 11, 16 - 10s
+# 2, 7, 12, 17 - Kings
+# 3, 8, 13, 18 - Queens
+# 4, 9, 14, 19 - Jacks
 
-# DEFINITION OF THE STRATEGY
-# Add clauses (This list is sufficient for this strategy)
-# PJ is the strategy to play jacks first, so all we need to model is all x PJ(x) <-> J(x),
-# In other words that the PJ strategy should play a card when it is a jack
-kb.add_clause(~J4, PJ4)
-kb.add_clause(~J9, PJ9)
-kb.add_clause(~J14, PJ14)
-kb.add_clause(~J19, PJ19)
+def general_information(kb):
+	"""This adds information which cards are cheap, i.e. Kings, Queens and 
+	Jacks.
+	
+	Args:
+		kb (KB): The kb to add the clauses to
+	"""
 
-kb.add_clause(~PJ4, J4)
-kb.add_clause(~PJ9, J9)
-kb.add_clause(~PJ14, J14)
-kb.add_clause(~PJ19, J19)
-# Add here other strategies
-kb.add_clause(~J0, PJ0)
-kb.add_clause(~J5, PJ5)
-kb.add_clause(~J10, PJ10)
-kb.add_clause(~J15, PJ15)
+	kb.add_clause(J2)
+	kb.add_clause(J3)
+	kb.add_clause(J4)
+	kb.add_clause(J7)
+	kb.add_clause(J8)
+	kb.add_clause(J9)
+	kb.add_clause(J12)
+	kb.add_clause(J13)
+	kb.add_clause(J14)
+	kb.add_clause(J17)
+	kb.add_clause(J18)
+	kb.add_clause(J19)
 
-kb.add_clause(~PJ0, J0)
-kb.add_clause(~PJ5, J5)
-kb.add_clause(~PJ10, J10)
-kb.add_clause(~PJ15, J15)
+def strategy_knowledge(kb):
+	"""DEFINITION OF THE STRATEGY
+	The strategy to play cheap cards first.
+	For all x, PJ(x) <-> J(x)
+	
+	Args:
+		kb (KB): the kb to add the clauses to
+	"""
+	kb.add_clause(~PJ2, J2)
+	kb.add_clause(~J2, PJ2)
 
-kb.add_clause(J0)
+	kb.add_clause(~PJ3, J3)
+	kb.add_clause(~J3, PJ3)
+
+	kb.add_clause(~PJ4, J4)
+	kb.add_clause(~J4, PJ4)
+
+	kb.add_clause(~PJ7, J7)
+	kb.add_clause(~J7, PJ7)
+
+	kb.add_clause(~PJ8, J8)
+	kb.add_clause(~J8, PJ8)
+
+	kb.add_clause(~PJ9, J9)
+	kb.add_clause(~J9, PJ9)
+
+	kb.add_clause(~PJ12, J12)
+	kb.add_clause(~J12, PJ12)
+
+	kb.add_clause(~PJ13, J13)
+	kb.add_clause(~J13, PJ13)
+
+	kb.add_clause(~PJ14, J14)
+	kb.add_clause(~J14, PJ14)
+
+	kb.add_clause(~PJ17, J17)
+	kb.add_clause(~J17, PJ17)
+
+	kb.add_clause(~PJ18, J18)
+	kb.add_clause(~J18, PJ18)
+
+	kb.add_clause(~PJ19, J19)
+	kb.add_clause(~J19, PJ19)
+
+general_information(kb)
+strategy_knowledge(kb)
+
+kb.add_clause(PJ2)
+
+
+print('kb:', kb)
 # print all models of the knowledge base
 for model in kb.models():
     print(model)

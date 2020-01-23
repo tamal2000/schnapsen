@@ -55,6 +55,7 @@ kb.add_clause(J4)
 kb.add_clause(J9)
 kb.add_clause(J14)
 kb.add_clause(J19)
+
 # Add here whatever is needed for your strategy.
 kb.add_clause(J0)
 kb.add_clause(J5)
@@ -74,6 +75,7 @@ kb.add_clause(~PJ4, J4)
 kb.add_clause(~PJ9, J9)
 kb.add_clause(~PJ14, J14)
 kb.add_clause(~PJ19, J19)
+
 # Add here other strategies
 kb.add_clause(~J0, PJ0)
 kb.add_clause(~J5, PJ5)
