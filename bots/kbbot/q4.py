@@ -15,6 +15,8 @@ kb.add_clause(A, B)
 kb.add_clause(~B, A)
 kb.add_clause(~A, C)
 kb.add_clause(~A, D)
+
+# Negated entailment
 kb.add_clause(~A, ~C, ~D)
 
 # Print all models of the knowledge base
