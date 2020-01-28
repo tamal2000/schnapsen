@@ -222,3 +222,4 @@ fabric.properties
 
 # Config for PyCharm
 .idea
+.vscode
