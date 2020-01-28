@@ -6,65 +6,55 @@ A reinforcement leanring bot using Q-learning.
 from api import State, util
 import random, os
 from itertools import chain
+import pandas as pd
 
 from sklearn.externals import joblib
 
-# Path of the model we will use. If you make a model
-# with a different name, point this line to its path.
-model_name = 'q.pkl'
-DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/' + model_name
+class QTable:
+    """A Q table, based on a list of states and actions.
+    """
+    def __init__(self):
+        self.table = range(10)
+
+    def get_best_action(state):
+        if self.table[state]
 
 class Bot:
 
-    __randomize = True
-
-    __model = None
-
-    def __init__(self, randomize=True, model_file=DEFAULT_MODEL):
-
-        print(model_file)
-        self.__randomize = randomize
-
-        # Load the model
-        self.__model = joblib.load(model_file)
+    def __init__(self, q_table: QTable):
+        self.q_table = q_table
 
     def get_move(self, state):
 
-        val, move = self.value(state)
-
+        # TODO get most promising move from Q table
+        q_value, action = self.best_q_value(state, self.q_table)
+        move = action
         return move
 
-    def value(self, state):
+    def best_q_value(self, state, q_table: QTable):
         """
-        Return the value of this state and the associated move
+        Return the action/move with the best Q-value for this state.
         :param state:
-        :return: val, move: the value of the state, and the best move.
+        :param q_table:
+        :return: val, move: the q_value of the state, and the best action/move.
         """
 
-        best_value = float('-inf') if maximizing(state) else float('inf')
-        best_move = None
+        best_q_value = 0
+        best_action = None
 
-        moves = state.moves()
+        actions = state.moves()
 
-        if self.__randomize:
-            random.shuffle(moves)
+        for action in actions:
 
-        for move in moves:
+            # update q table
+            # next_state = state.next(move)
 
-            next_state = state.next(move)
+            q_value = self.q_table.get_best_action(state)
+            if q_value > best_q_value:
+                best_q_value = q_value
+                best_action = action
 
-            value = self.heuristic(next_state)
-
-            if maximizing(state):
-                if value > best_value:
-                    best_value = value
-                    best_move = move
-            else:
-                if value < best_value:
-                    best_value = value
-                    best_move = move
-
-        return best_value, best_move
+        return best_q_value, best_action
 
     def heuristic(self, state):
 
@@ -90,7 +80,6 @@ def maximizing(state):
     :return:
     """
     return state.whose_turn() == 1
-
 
 def features(state: State):
     # type: (State) -> tuple[float, ...]
