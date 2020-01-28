@@ -1,8 +1,4 @@
 #!/usr/bin/env python
-"""
-A basic adaptive bot. This is part of the third worksheet.
-
-"""
 
 from api import State, util
 import random, os

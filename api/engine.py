@@ -33,10 +33,10 @@ def play(
 
             if move[0] is None:
                 pr('*   Player {} performs a trump jack exchange'.format(state.whose_turn()), verbose)
-            
+
             else:
                 pr('*   Player {} plays: {}{}'.format(state.whose_turn(), util.get_rank(move[0]), util.get_suit(move[0])), verbose)
-                
+
                 if move[1] is not None:
                     pr('*   Player {} melds a marriage between {}{} and {}{}'.format(state.whose_turn(), util.get_rank(move[0]), util.get_suit(move[0]), util.get_rank(move[1]), util.get_suit(move[1])), verbose)
 
@@ -45,7 +45,7 @@ def play(
 
             if not state.revoked() is None:
                 pr('!   Player {} revoked (made illegal move), game finished.'.format(state.revoked()), verbose)
-        
+
         else:
             state.set_to_revoked()
 
@@ -131,7 +131,7 @@ def is_valid(
     if len(move) != 2:
         print('Bot {} returned a move {} that was not of length 2.'.format(player, move))
         return False
-    
+
     if ((type(move[0]) is not int) and (move[0] is not None)) or ((type(move[1]) is not int) and (move[1] is not None)):
         print('Bot {} returned a move {} that was not a tuple for which each element is either an int or None'.format(player, move))
         return False

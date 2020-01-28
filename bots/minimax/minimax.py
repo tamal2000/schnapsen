@@ -57,7 +57,7 @@ class Bot:
 
             # IMPLEMENT: Add a recursive function call so that 'value' will contain the
             # minimax value of 'next_state'
-            value = maximizing(next_state)
+            value, m = self.value(next_state,depth+1)
 
             if maximizing(state):
                 if value > best_value:
@@ -88,4 +88,4 @@ def heuristic(state):
     :param state:
     :return: A heuristic evaluation for the given state (between -1.0 and 1.0)
     """
-    return util.ratio_points(state, 1) * 2.0 - 1.0, None
+    return util.difference_points(state, 1) * 2.0 - 1.0, None

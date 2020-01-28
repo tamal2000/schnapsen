@@ -1,0 +1,87 @@
+Schnapsen
+
+How 'play.py' works?
+# Libraries:
+1.	ArgumentParser for command line options for the game
+2.	Sys for getting system environment / path / bots’ locations
+3.	States, util and engine from game API
+
+# __main__
+1. Parser arguments are added1
+'-s': game phase, default 1
+'-1': define player 1, default 'rand'
+'-2': define player 2, default 'rand'
+'-t': max allowed turns per seconds
+'-q': no output, 'game results is stored'
+
+2. call 'call_engine' function with parser 'options'
+
+# 'call_engine' function
+1. Create player 1 using 'util.load_player' and -1 param
+2. Create player 2 using 'util.load_player' and -2 param
+3. Generate game map using 'State.generate' function and -s param
+4. cal 'engine.play' to start the game
+
+How 'engine.play' function works?
+1. Play until 'state.finished()'
+  player: get player by whose_turn()
+  given_state: clone state #hides the state in phase 1 from other player
+  move: player.get_move(given_state) [get_move() from bots]
+  For valid move:
+  - If move[0] is None: player performs a trump jack exchange
+  - If move[1] is not none: player melds a marriage
+  - Next move by state.next(move)                             ***
+2. winer: state.winner()
+
+How ml bot works?
+# Libraries
+State and Util from api
+import random and os
+chain from itertools
+joblib from sklearn.externals to save/use models
+
+1. Assign DEFAULT_MODEL from os_path [model.pkl]
+2. Bot creation:
+  * randomize = True
+  * model = None
+3. __init__ function:
+- set randomness
+- load model
+4. get_move function:
+- get value and move form Value(function)
+and return move
+  5. Value Function:
+  a. best_move: -inf to +inf based on max/nim state
+  b. move: list of all moves
+  c. If randomize: shuffle moves
+  d. loop moves:
+     -  new_state = state.next(move)
+     -  value: Heuristic function with next_state
+     -  if play 1: user minimax algorithm
+  e. Return: best value and best move
+5. Heuristic Function:
+- get features from feature function
+- load win loss classes from model
+- find probability using feature vector
+- return probability of win and loss
+6. Feature Function:
+- p1_points
+- p2_points
+- p1_pending_points
+- p2_pending_points
+- trump suits
+- phase
+- stock size
+- leader
+- turn
+- cards of opponent player
+- get perspective
+- total points
+- total pending points
+- trump set encoded
+
+How Machine Learning bot is being trained?
+import bot
+import features from ML bot
+
+- create dataset

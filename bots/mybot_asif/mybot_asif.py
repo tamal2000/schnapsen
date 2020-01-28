@@ -29,6 +29,7 @@ class Bot:
 
         # All legal moves
         moves = state.moves()
+        print ("list of moves",moves)
 
         trump_cards = []
         other_cards = []

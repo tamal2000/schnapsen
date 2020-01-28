@@ -25,7 +25,8 @@ def call_engine(options):
 
     if not options.quiet:
         # print('-- Using map with id {} '.format(id))
-        print('   Start state: ' + str(state))
+        print('Start state: ' + str(state))
+
 
     # Play the game
 

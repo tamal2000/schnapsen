@@ -2,19 +2,21 @@ import sys
 from kb import KB, Boolean, Integer, Constant
 
 # Define our symbols
-A = Boolean('A')
-B = Boolean('B')
-C = Boolean('C')
+P = Boolean('P')
+Q = Boolean('Q')
+R = Boolean('R')
 
 # Create a new knowledge base
 kb = KB()
 
 # Add clauses
-kb.add_clause(A, B, C)
-kb.add_clause(~A, B)
-kb.add_clause(~B, C)
-kb.add_clause(B, ~C)
-kb.add_clause(~B, ~C)
+kb.add_clause(P, Q)
+kb.add_clause(~Q, R)
+kb.add_clause(~R, ~P)
+kb.add_clause(P)
+kb.add_clause(~P)
+kb.add_clause(Q)
+kb.add_clause(~Q)
 
 
 
