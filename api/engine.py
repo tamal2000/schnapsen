@@ -20,6 +20,7 @@ def play(
 
     # The game loop
     while not state.finished():
+        print('played card of oppo:', state.get_opponents_played_card())
 
         player = player1 if state.whose_turn() == 1 else player2
 
