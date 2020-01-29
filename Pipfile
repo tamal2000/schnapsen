@@ -13,7 +13,6 @@ flask = "*"
 matplotlib = "*"
 tensorflow = "*"
 keras = "*"
-h5py = "*"
 
 [requires]
 python_version = "3.7"
