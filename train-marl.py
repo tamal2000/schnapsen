@@ -101,12 +101,12 @@ class DQNAgent:
 
         # Get current states from minibatch, then query NN model for Q values
         current_states = np.array([transition[0] for transition in minibatch])
-        current_qs_list = self.model.predict(current_states)
+        current_qs_list = self.model.predict(features(current_states))
 
         # Get future states from minibatch, then query NN model for Q values
         # When using target network, query it, otherwise main network should be queried
         new_current_states = np.array([transition[3] for transition in minibatch])
-        future_qs_list = self.target_model.predict(new_current_states)
+        future_qs_list = self.target_model.predict(features(new_current_states))
 
         X = []
         y = []
@@ -124,7 +124,7 @@ class DQNAgent:
 
             # Update Q value for given state
             current_qs = current_qs_list[index]
-            current_qs[action] = new_q
+            current_qs[action[0]] = new_q
 
             # And append to our training data
             X.append(current_state)
@@ -175,7 +175,7 @@ for episode in tqdm(range(1, EPISODES + 1), ascii=True, unit='episodes'):
         moves = current_state.moves()
         if np.random.random() > epsilon:
             # Get action from Q table
-            action = random.choice(moves)
+            #action = random.choice(moves)
             option = np.argmax(agent.get_qs(current_state_features))
             for move in moves:
                 if move[0] == round(option):
