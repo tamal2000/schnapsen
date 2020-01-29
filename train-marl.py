@@ -3,8 +3,6 @@ import os.path
 import random
 import time
 from collections import deque
-#from bots.marl.marl_asif import Bot
-#from bots.marl.marl_asif import features
 from itertools import chain
 
 import numpy as np
@@ -19,9 +17,17 @@ from api import State, util
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-# Only needed if game doesn't work wihtout second player
-#from bots.rand import rand
-# player=rand.Bot()
+###########################
+##CHANGE BELOW AS NEEDED ##
+###########################
+
+PATH_TO_MODEL_DIR = 'marl_1/models'
+from bots.marl_1.marl_1 import features
+FEATURE_VECTOR_LENGTH = 156
+
+###########################
+##CHANGE ABOVE AS NEEDED ##
+###########################
 
 DISCOUNT = 0.99
 REPLAY_MEMORY_SIZE = 50_000
@@ -47,16 +53,14 @@ SHOW_PREVIEW = False
 # For stats
 ep_rewards = [-200]
 
-
 # For more repetitive results
 random.seed(1)
 np.random.seed(1)
 tf.random.set_seed(1)
 
 # Create models folder
-if not os.path.isdir('models_test3'):
-    os.makedirs('models_test3')
-
+# if not os.path.isdir(PATH_TO_MODEL_DIR):
+#     os.makedirs(PATH_TO_MODEL_DIR)    
 
 # Own Tensorboard class
 class ModifiedTensorBoard(TensorBoard):
@@ -115,7 +119,7 @@ class DQNAgent:
 
     def create_model(self):
         model = Sequential()
-        model.add(Dense(32, input_shape=(156,)))
+        model.add(Dense(32, input_shape=(FEATURE_VECTOR_LENGTH,)))
         model.add(Activation('relu'))
         model.add(Dense(300))
         model.add(Activation('relu'))
@@ -294,7 +298,7 @@ for episode in tqdm(range(1, EPISODES + 1), ascii=True, unit='episodes'):
 
         # Save model, but only whenb9632890- min reward is greater or equal a set value
         if min_reward >= MIN_REWARD:
-            agent.model.save(f'models_test/{MODEL_NAME}__{max_reward:_>7.2f}max_{average_reward:_>7.2f}avg_{min_reward:_>7.2f}min__{int(time.time())}.model')
+            agent.model.save(f'{PATH_TO_MODEL_DIR}/{MODEL_NAME}__{max_reward:_>7.2f}max_{average_reward:_>7.2f}avg_{min_reward:_>7.2f}min__{int(time.time())}.model')
 
     # Decay epsilon
     if epsilon > MIN_EPSILON:
