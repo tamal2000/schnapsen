@@ -90,23 +90,24 @@ class Bot:
             valid_q_indices.append(card_index)
 
         highest_valid_q = 0
-        index_of_best_move = None
+        card_index_of_best_move = None
 
         for index, q_value in enumerate(qs):
             if index in valid_q_indices:  # if move is valid
                 if q_value > highest_valid_q:
                     highest_valid_q = q_value
-                    index_of_best_move = index
+                    card_index_of_best_move = index
 
         # print('qs:', qs)        
         # print('moves:', moves)        
         # print('valid_q_indices:', valid_q_indices)        
         # print('index_of_best_move:', index_of_best_move)  
 
-        if index_of_best_move is None:
+        if card_index_of_best_move is None:  # No move has Q value > 0
             action = random.choice(moves)
         else:
-            action = [move for move in moves if move[0] == index_of_best_move][0]
+            # Obtain the move where the card index matches the best move
+            action = [move for move in moves if move[0] == card_index_of_best_move][0]
             self.moves_from_nn = (self.moves_from_nn + 1)
               
         # print('move ratio:', f'{self.moves_from_nn}/{self.total_moves}')
