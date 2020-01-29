@@ -1,19 +1,22 @@
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Flatten
-from tensorflow.keras.optimizers import Adam
-from collections import deque
-from tqdm import tqdm
-import numpy as np
-import time
-import random
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from api import State, util
-from bots.marl.marl import Bot
-from bots.marl.marl import features
-from itertools import chain
 import os.path
+import random
+import time
+from collections import deque
+from itertools import chain
+
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Activation, Dense, Flatten
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
+from tqdm import tqdm
+
+from api import State, util
+from bots.rand import Bot
+from bots.marl import Bot, features
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 #Only needed if game doesn't work wihtout second player
 #from bots.rand import rand
@@ -51,7 +54,6 @@ tf.random.set_seed(1)
 # Create models folder
 if not os.path.isdir('models_test'):
     os.makedirs('models_test')
-
 
 # Agent class
 class DQNAgent:

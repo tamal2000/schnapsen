@@ -1,100 +1,113 @@
 #!/usr/bin/env python
 
-from api import State, util
-import random, os
+import os
+import random
+import time
+from collections import deque
 from itertools import chain
+
 import numpy as np
-
 from sklearn.externals import joblib
+from tensorflow.keras.models import load_model
 
-# Path of the model we will use. If you make a model
-# with a different name, point this line to its path.
-DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/model.pkl'
+from api import State, util
+
+DIR_NAME = 'two_____3.00max____1.86avg____1.00min__1580290549.model'
+MODEL_FILE = f'models_test/{DIR_NAME}'
+
+
+# DISCOUNT = 0.99
+REPLAY_MEMORY_SIZE = 50_000
+# MIN_REPLAY_MEMORY_SIZE = 1_000
+# MINIBATCH_SIZE = 64
+# UPDATE_TARGET_EVERY = 5
+# MODEL_NAME = 'two'
+# # why do we need mini reward to be defined
+# MIN_REWARD = -200
+# MEMORY_FRACTION = 0.20
+
+# # Environment settings
+# EPISODES = 1000 #20_000
+# # Exploration settings
+# epsilon = 1 # not a constant, going to be decayed
+# EPSILON_DECAY = 0.99975
+# MIN_EPSILON = 0.001
+
+# #  Stats settings
+# AGGREGATE_STATS_EVERY = 50  # episodes
+# SHOW_PREVIEW = False
+
+# # For stats
+# ep_rewards = [-200]
+
+# # For more repetitive results
+# random.seed(1)
+# np.random.seed(1)
+# tf.random.set_seed(1)
+
+class DQNAgent:
+
+    def __init__(self, model_path=MODEL_FILE):
+
+        # Main model
+        self.model = load_model(model_path)
+
+        # Target network
+        self.target_model = load_model(model_path)
+        self.target_model.set_weights(self.model.get_weights())
+
+        # An array with last n steps for training
+        self.replay_memory = deque(maxlen=REPLAY_MEMORY_SIZE)
+        # Used to count when to update target network with main network's weights
+        self.target_update_counter = 0
+
+    # Queries main network for Q values given current observation space (environment state)
+    def get_qs(self, state):
+        return self.model.predict(np.array(state).reshape(-1, *state.shape))[0]
 
 class Bot:
 
-    __randomize = True
-    __model = None
-
-    def __init__(self, randomize=True, model_file=DEFAULT_MODEL):
-
-        print(model_file)
-        self.__randomize = randomize
-        # Load the model
-        self.__model = joblib.load(model_file)
-
+    def __init__(self, model_file=MODEL_FILE):
+        self.agent = DQNAgent()
+        self.moves_from_nn = 0
+        self.total_moves = 0
+        
     def get_move(self, state):
+        return self.obtain_move_from_deep_network(state)
 
-        val, move = self.value(state)
-        return move
+    def obtain_move_from_deep_network(self, state):
+        # Count total moves made
+        self.total_moves = self.total_moves + 1
 
-    def value(self, state):
-        """
-        Return the value of this state and the associated move
-        :param state:
-        :return: val, move: the value of the state, and the best move.
-        """
-
-        best_value = float('-inf') if maximizing(state) else float('inf')
-        best_move = None
+        start_time = time.time()
+        current_state_features = np.array(features(state))
 
         moves = state.moves()
+    
+        # print('         Choosing action from network')
 
-        if self.__randomize:
-            random.shuffle(moves)
+        option = np.argmax(self.agent.get_qs(current_state_features))
 
+        # print("Value from table", option)
+        action = None
         for move in moves:
+            if move[0] == round(option):
+                action = move
+                print('ACTION selected by Q', action)
 
-            next_state = state.next(move)
+                # Count moves made from network
+                self.moves_from_nn = (
+                    self.moves_from_nn + 1
+                )
 
-            # IMPLEMENT: Add a function call so that 'value' will
-            # contain the predicted value of 'next_state'
-            # NOTE: This is different from the line in the minimax/alphabeta bot
-            value = self.heuristic(next_state)
+        if action is None:
+            # print('No matching action has been found in the move set, choosing random move')
+            action = random.choice(moves)
 
-            print('Values:',value)
-
-            if maximizing(state):
-                print('maximizing NOW')
-                if value > best_value:
-                    best_value = value
-                    best_move = move
-            else:
-                if value < best_value:
-                    best_value = value
-                    best_move = move
-
-        return best_value, best_move
-
-    def heuristic(self, state):
-
-        # Convert the state to a feature vector
-        feature_vector = [features(state)]
-        print('Features:',feature_vector)
-
-        # These are the classes: ('won', 'lost')
-        classes = list(self.__model.classes_)
-        print('Class:',classes)
-
-
-        # Ask the model for a prediction
-        # This returns a probability for each class
-        prob = self.__model.predict_proba(feature_vector)[0]
-        print("probability:",prob)
-
-        # Weigh the win/loss outcomes (-1 and 1) by their probabilities
-        res = -1.0 * prob[classes.index('lost')] + 1.0 * prob[classes.index('won')]
-        print ('Result:',res)
-        return res
-
-def maximizing(state):
-    """
-    Whether we're the maximizing player (1) or the minimizing player (2).
-    :param state:
-    :return:
-    """
-    return state.whose_turn() == 1
-
+        print('move ratio:', f'{self.moves_from_nn}/{self.total_moves}')
+    
+        return action
+        
 
 def features(state):
     # type: (State) -> tuple[float, ...]
