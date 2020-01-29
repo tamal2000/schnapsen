@@ -114,7 +114,7 @@ class Bot:
     
         return action
         
-
+# Len of feature vector = 156
 def features(state):
     # type: (State) -> tuple[float, ...]
     """
