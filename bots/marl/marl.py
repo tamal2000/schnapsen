@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
-from api import State, util
+from tensorflow.keras.models import load_model
+#from api import State, util
 import random, os
 from itertools import chain
 import numpy as np
@@ -9,8 +9,14 @@ from sklearn.externals import joblib
 
 # Path of the model we will use. If you make a model
 # with a different name, point this line to its path.
-DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/model.pkl'
+#DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/model.pkl'
 
+LOAD_MODEL = "two_____3.00max____1.72avg____1.00min__1580287953.model"
+
+if LOAD_MODEL is not None:
+    model = load_model(LOAD_MODEL)
+
+'''
 class Bot:
 
     __randomize = True
@@ -171,3 +177,4 @@ def features(state):
 
     # Return feature set
     return feature_set
+'''

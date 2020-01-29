@@ -30,7 +30,7 @@ MIN_REWARD = -200
 MEMORY_FRACTION = 0.20
 
 # Environment settings
-EPISODES = 1000 #20_000
+EPISODES = 5000 #20_000
 # Exploration settings
 epsilon = 1  # not a constant, going to be decayed
 EPSILON_DECAY = 0.99975
@@ -183,11 +183,11 @@ for episode in tqdm(range(1, EPISODES + 1), ascii=True, unit='episodes'):
             # Get action from Q table
             action = random.choice(moves)
             option = np.argmax(agent.get_qs(current_state_features))
-            print("Value from table", option)
+            #print("Value from table", option)
             for move in moves:
                 if move[0] == round(option):
                     action = move
-                    print('ACTION selected by Q', action)
+                    #print('ACTION selected by Q', action)
 
         else:
             # Get random action
@@ -217,7 +217,7 @@ for episode in tqdm(range(1, EPISODES + 1), ascii=True, unit='episodes'):
         current_state = new_state
         step += 1
 
-        print('episode_reward', episode_reward)
+        #print('episode_reward', episode_reward)
         #print('step', step)
 
     ep_rewards.append(episode_reward)
