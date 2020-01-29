@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.externals import joblib
 from tensorflow.keras.models import load_model
 
-from api import State, util
+from api import Deck, State, util
 
 DIR_NAME = 'two_____3.00max____1.86avg____1.00min__1580290549.model'
 MODEL_FILE = f'models_test/{DIR_NAME}'
@@ -163,10 +163,11 @@ def features(state: State):
     # Number of suit-following cards in hand
     number_of_suit_following_cards_in_hand = 0
     for h in hand:
-        suit_of_played_card = Deck.get_suit(state.get_opponents_played_card())
-        if Deck.get_suit(h) == suit_of_played_card:
-            number_of_suit_following_cards_in_hand = \
-                number_of_suit_following_cards_in_hand + 1
+        if state.get_opponents_played_card():  # if the opponent has played first
+            suit_of_played_card = Deck.get_suit(state.get_opponents_played_card())
+            if Deck.get_suit(h) == suit_of_played_card:
+                number_of_suit_following_cards_in_hand = \
+                    number_of_suit_following_cards_in_hand + 1
 
     ################## You do not need to do anything below this line ########################
 
