@@ -16,7 +16,7 @@ LOAD_MODEL = "two_____3.00max____1.72avg____1.00min__1580287953.model"
 if LOAD_MODEL is not None:
     model = load_model(LOAD_MODEL)
 
-'''
+
 class Bot:
 
     __randomize = True
@@ -177,4 +177,3 @@ def features(state):
 
     # Return feature set
     return feature_set
-'''

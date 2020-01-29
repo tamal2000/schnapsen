@@ -85,3 +85,11 @@ import bot
 import features from ML bot
 
 - create dataset
+
+current_state_features = np.array(features(current_state))
+option = np.argmax(agent.get_qs(current_state_features))
+for move in moves:
+          if move[0] == round(option):
+              action = move
+          else:
+            action = random.choice(moves)
