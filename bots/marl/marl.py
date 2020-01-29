@@ -79,32 +79,37 @@ class Bot:
         # Count total moves made
         self.total_moves = self.total_moves + 1
 
-        start_time = time.time()
         current_state_features = np.array(features(state))
-
         moves = state.moves()
     
-        # print('         Choosing action from network')
+        qs = self.agent.get_qs(current_state_features)
 
-        option = np.argmax(self.agent.get_qs(current_state_features))
-
-        # print("Value from table", option)
-        action = None
+        valid_q_indices = []
         for move in moves:
-            if move[0] == round(option):
-                action = move
-                print('ACTION selected by Q', action)
+            card_index = move[0]
+            valid_q_indices.append(card_index)
 
-                # Count moves made from network
-                self.moves_from_nn = (
-                    self.moves_from_nn + 1
-                )
+        highest_valid_q = 0
+        index_of_best_move = None
 
-        if action is None:
-            # print('No matching action has been found in the move set, choosing random move')
+        for index, q_value in enumerate(qs):
+            if index in valid_q_indices:  # if move is valid
+                if q_value > highest_valid_q:
+                    highest_valid_q = q_value
+                    index_of_best_move = index
+
+        # print('qs:', qs)        
+        # print('moves:', moves)        
+        # print('valid_q_indices:', valid_q_indices)        
+        # print('index_of_best_move:', index_of_best_move)  
+
+        if index_of_best_move is None:
             action = random.choice(moves)
-
-        print('move ratio:', f'{self.moves_from_nn}/{self.total_moves}')
+        else:
+            action = [move for move in moves if move[0] == index_of_best_move][0]
+            self.moves_from_nn = (self.moves_from_nn + 1)
+              
+        # print('move ratio:', f'{self.moves_from_nn}/{self.total_moves}')
     
         return action
         
