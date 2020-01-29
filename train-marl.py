@@ -21,7 +21,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 ##CHANGE BELOW AS NEEDED ##
 ###########################
 
-PATH_TO_MODEL_DIR = 'marl_1/models'
+PATH_TO_MODEL_DIR = 'bots/marl_1/models'
 from bots.marl_1.marl_1 import features
 FEATURE_VECTOR_LENGTH = 156
 
